@@ -53,7 +53,7 @@ void buildScene(ScenePtr _scene)
   std::vector<std::string> meshes;
   meshes.push_back("drill");
   meshes.push_back("extinguisher");
-//  meshes.push_back("rescue_randy");
+  meshes.push_back("rescue_randy");
   meshes.push_back("valve");
 
   std::map<std::string, VisualPtr> visuals;
@@ -144,8 +144,6 @@ void buildScene(ScenePtr _scene)
   pointLight->SetLocalPosition(0, 0, 2);
   pointLight->SetCastShadows(true);
   root->AddChild(pointLight);
-
-
 
   // create camera
   CameraPtr camera = _scene->CreateCamera("camera");
