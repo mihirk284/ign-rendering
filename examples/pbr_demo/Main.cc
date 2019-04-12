@@ -46,8 +46,8 @@ const std::string RESOURCE_PATH =
 void buildScene(ScenePtr _scene)
 {
   // initialize _scene
-  _scene->SetAmbientLight(0.4, 0.4, 0.4);
-  _scene->SetBackgroundColor(0.0, 0.0, 0.0);
+  _scene->SetAmbientLight(1.0, 1.0, 1.0);
+  _scene->SetBackgroundColor(0.2, 0.2, 0.2);
   VisualPtr root = _scene->RootVisual();
 
   std::vector<std::string> meshes;
@@ -59,8 +59,10 @@ void buildScene(ScenePtr _scene)
   std::map<std::string, VisualPtr> visuals;
 
   // create PBR material
-  double x = 3;
-  double y = -1.0 * meshes.size() * 0.5;
+  double x = -1.0 * meshes.size() * 0.5;
+  double y = 0;
+  std::string environmentMap =
+      common::joinPaths(RESOURCE_PATH, "fort_point.dds");
   for (auto mesh : meshes)
   {
     MaterialPtr matPBR = _scene->CreateMaterial();
@@ -71,17 +73,23 @@ void buildScene(ScenePtr _scene)
     std::string roughnessMap = common::joinPaths(RESOURCE_PATH, mesh,
         mesh + "_roughness.png");
     std::string metalnessMap = common::joinPaths(RESOURCE_PATH, mesh,
-       mesh + "_metallic.png");
+       mesh + "_metalness.png");
+    matPBR->SetDiffuse(1.0, 1.0, 1.0);
     matPBR->SetTexture(textureMap);
     matPBR->SetNormalMap(normalMap);
+    matPBR->SetRoughness(1.07);
     matPBR->SetRoughnessMap(roughnessMap);
+    matPBR->SetMetalness(1.0);
     matPBR->SetMetalnessMap(metalnessMap);
+    matPBR->SetSpecular(1.0, 1.0, 1.0);
+
+//    if (mesh == "extinguisher")
+      matPBR->SetEnvironmentMap(environmentMap);
 
     // create mesh for PBR
     VisualPtr meshPBR = _scene->CreateVisual(mesh);
     meshPBR->SetLocalPosition(x, y, 0.0);
     meshPBR->SetLocalRotation(0, 0, 0);
-//    meshPBR->SetLocalScale(0.5, 0.5, 0.5);
     MeshDescriptor descriptorPBR;
     descriptorPBR.meshName = common::joinPaths(RESOURCE_PATH, mesh,
         mesh + ".dae");
@@ -91,12 +99,51 @@ void buildScene(ScenePtr _scene)
     meshPBRGeom->SetMaterial(matPBR);
     meshPBR->AddGeometry(meshPBRGeom);
     root->AddChild(meshPBR);
-    y += 1.0;
+    x += 1.0;
 
     visuals[mesh] = meshPBR;
   }
 
   // manually position and scale the meshes
+//  VisualPtr extinguisher = visuals["extinguisher"];
+//  matPBR->SetEnvironmentMap(environmentMap);
+/*  {
+    std::string mesh = "extinguisher";
+    MaterialPtr matPBR = _scene->CreateMaterial();
+    std::string textureMap = common::joinPaths(RESOURCE_PATH, mesh,
+        mesh + "_albedo.png");
+    std::string normalMap = common::joinPaths(RESOURCE_PATH, mesh,
+        mesh + "_normal.png");
+    std::string roughnessMap = common::joinPaths(RESOURCE_PATH, mesh,
+        mesh + "_roughness.png");
+    std::string metalnessMap = common::joinPaths(RESOURCE_PATH, mesh,
+       mesh + "_metalness.png");
+    matPBR->SetDiffuse(1.0, 1.0, 1.0);
+    matPBR->SetTexture(textureMap);
+    matPBR->SetNormalMap(normalMap);
+    matPBR->SetRoughness(1.07);
+    matPBR->SetRoughnessMap(roughnessMap);
+    matPBR->SetMetalness(1.0);
+    matPBR->SetMetalnessMap(metalnessMap);
+    matPBR->SetEnvironmentMap(environmentMap);
+    matPBR->SetSpecular(1.0, 1.0, 1.0);
+
+    // create mesh for PBR
+    VisualPtr meshPBR = _scene->CreateVisual(mesh);
+    meshPBR->SetLocalPosition(0, 0, 0.0);
+    meshPBR->SetLocalRotation(0, 0, 0);
+    MeshDescriptor descriptorPBR;
+    descriptorPBR.meshName = common::joinPaths(RESOURCE_PATH, mesh,
+        mesh + ".dae");
+    common::MeshManager *meshManager = common::MeshManager::Instance();
+    descriptorPBR.mesh = meshManager->Load(descriptorPBR.meshName);
+    MeshPtr meshPBRGeom = _scene->CreateMesh(descriptorPBR);
+    meshPBRGeom->SetMaterial(matPBR);
+    meshPBR->AddGeometry(meshPBRGeom);
+    root->AddChild(meshPBR);
+  }
+*/
+
 
   // create white material
   MaterialPtr white = _scene->CreateMaterial();
@@ -107,7 +154,7 @@ void buildScene(ScenePtr _scene)
   VisualPtr plane = _scene->CreateVisual("plane");
   plane->AddGeometry(_scene->CreatePlane());
   plane->SetLocalScale(10, 10, 1);
-  plane->SetLocalPosition(3, 0, 0.0);
+  plane->SetLocalPosition(0, 0, 0.0);
   plane->SetMaterial(white);
   root->AddChild(plane);
 
@@ -115,7 +162,7 @@ void buildScene(ScenePtr _scene)
   DirectionalLightPtr light0 = _scene->CreateDirectionalLight();
   light0->SetDirection(0.5, 0.5, -1);
   light0->SetDiffuseColor(1.0, 1.0, 1.0);
-  light0->SetSpecularColor(0.3, 0.3, 0.3);
+  light0->SetSpecularColor(1.0, 1.0, 1.0);
   light0->SetCastShadows(true);
   root->AddChild(light0);
 
@@ -138,17 +185,18 @@ void buildScene(ScenePtr _scene)
   root->AddChild(light3);
 */
   // create point light
-  PointLightPtr pointLight = _scene->CreatePointLight();
+/*  PointLightPtr pointLight = _scene->CreatePointLight();
   pointLight->SetDiffuseColor(0.5, 0.8, 0.8);
   pointLight->SetSpecularColor(0.2, 0.2, 0.2);
   pointLight->SetLocalPosition(0, 0, 2);
   pointLight->SetCastShadows(true);
   root->AddChild(pointLight);
+*/
 
   // create camera
   CameraPtr camera = _scene->CreateCamera("camera");
-  camera->SetLocalPosition(0.0, 0.0, 3.0);
-  camera->SetLocalRotation(0.0, 0.5, 0.0);
+  camera->SetLocalPosition(0.0, -3.0, 3.0);
+  camera->SetLocalRotation(0.0, 0.5, IGN_PI * 0.5);
   camera->SetImageWidth(1280);
   camera->SetImageHeight(1024);
   camera->SetAntiAliasing(2);
