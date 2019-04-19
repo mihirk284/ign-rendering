@@ -47,7 +47,7 @@ void buildScene(ScenePtr _scene)
 {
   // initialize _scene
   _scene->SetAmbientLight(1.0, 1.0, 1.0);
-  _scene->SetBackgroundColor(0.2, 0.2, 0.2);
+  _scene->SetBackgroundColor(0.1, 0.1, 0.1);
   VisualPtr root = _scene->RootVisual();
 
   std::vector<std::string> meshes;
@@ -65,28 +65,16 @@ void buildScene(ScenePtr _scene)
       common::joinPaths(RESOURCE_PATH, "fort_point.dds");
   for (auto mesh : meshes)
   {
-    MaterialPtr matPBR = _scene->CreateMaterial();
+    MaterialPtr matPBR = _scene->CreateMaterial(mesh);
     std::string textureMap = common::joinPaths(RESOURCE_PATH, mesh,
         mesh + "_albedo.png");
-    std::string normalMap = common::joinPaths(RESOURCE_PATH, mesh,
-        mesh + "_normal.png");
-    std::string roughnessMap = common::joinPaths(RESOURCE_PATH, mesh,
-        mesh + "_roughness.png");
-    std::string metalnessMap = common::joinPaths(RESOURCE_PATH, mesh,
-       mesh + "_metalness.png");
     matPBR->SetDiffuse(1.0, 1.0, 1.0);
     matPBR->SetTexture(textureMap);
-    matPBR->SetNormalMap(normalMap);
-    matPBR->SetRoughness(1.07);
-    matPBR->SetRoughnessMap(roughnessMap);
-    matPBR->SetMetalness(1.0);
-    matPBR->SetMetalnessMap(metalnessMap);
+//    matPBR->SetRoughness(1.0);
+//    matPBR->SetMetalness(1.0);
     matPBR->SetSpecular(1.0, 1.0, 1.0);
 
-//    if (mesh == "extinguisher")
-      matPBR->SetEnvironmentMap(environmentMap);
-
-    // create mesh for PBR
+      // create mesh for PBR
     VisualPtr meshPBR = _scene->CreateVisual(mesh);
     meshPBR->SetLocalPosition(x, y, 0.0);
     meshPBR->SetLocalRotation(0, 0, 0);
@@ -159,7 +147,7 @@ void buildScene(ScenePtr _scene)
   root->AddChild(plane);
 
   // create directional light
-  DirectionalLightPtr light0 = _scene->CreateDirectionalLight();
+  DirectionalLightPtr light0 = _scene->CreateDirectionalLight("dir");
   light0->SetDirection(0.5, 0.5, -1);
   light0->SetDiffuseColor(1.0, 1.0, 1.0);
   light0->SetSpecularColor(1.0, 1.0, 1.0);
@@ -185,10 +173,10 @@ void buildScene(ScenePtr _scene)
   root->AddChild(light3);
 */
   // create point light
-/*  PointLightPtr pointLight = _scene->CreatePointLight();
-  pointLight->SetDiffuseColor(0.5, 0.8, 0.8);
-  pointLight->SetSpecularColor(0.2, 0.2, 0.2);
-  pointLight->SetLocalPosition(0, 0, 2);
+/*  PointLightPtr pointLight = _scene->CreatePointLight("point");
+  pointLight->SetDiffuseColor(0.5, 0.6, 0.8);
+  pointLight->SetSpecularColor(1.0, 1.0, 1.0);
+  pointLight->SetLocalPosition(0, 0, 5);
   pointLight->SetCastShadows(true);
   root->AddChild(pointLight);
 */

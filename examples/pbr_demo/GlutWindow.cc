@@ -32,6 +32,8 @@
 #include <mutex>
 
 #include <ignition/common/Console.hh>
+#include <ignition/common/Filesystem.hh>
+
 #include <ignition/rendering/Camera.hh>
 #include <ignition/rendering/Image.hh>
 #include <ignition/rendering/RayQuery.hh>
@@ -39,10 +41,14 @@
 #include <ignition/rendering/Scene.hh>
 #include <ignition/rendering/OrbitViewController.hh>
 
+#include "example_config.hh"
 #include "GlutWindow.hh"
 
 #define KEY_ESC 27
 #define KEY_TAB  9
+
+const std::string RESOURCE_PATH =
+    ignition::common::joinPaths(std::string(PROJECT_BINARY_PATH), "media");
 
 //////////////////////////////////////////////////
 unsigned int imgw = 0;
@@ -89,6 +95,16 @@ struct mouseButton
 };
 struct mouseButton g_mouse;
 std::mutex g_mouseMutex;
+
+// pbr variables
+std::mutex g_pbrMutex;
+int g_pbrUpdate = 0;
+
+// pbr variables
+std::mutex g_lightMutex;
+int g_lightUpdate = 0;
+
+
 
 //////////////////////////////////////////////////
 void mouseCB(int _button, int _state, int _x, int _y)
@@ -246,6 +262,120 @@ void handleMouse()
   }
 }
 
+//////////////////////////////////////////////////
+void updateLight()
+{
+  std::lock_guard<std::mutex> lock(g_lightMutex);
+
+  static double t = 1;
+  if (g_lightUpdate == 0)
+  {
+    return;
+  }
+  else if (g_lightUpdate == 1)
+  {
+    t = 1;
+    g_lightUpdate = 0;
+  }
+  else if (g_lightUpdate == 2)
+  {
+    t += 0.005;
+  }
+
+  for (auto cam : g_cameras)
+  {
+    ir::ScenePtr scene = cam->Scene();
+//    ir::LightPtr light = scene->LightByName("point");
+//    light->SetLocalPosition(cos(t) * 3, sin(t) * 3, sin(t) * 0.5 + 2);
+    auto light =
+        std::dynamic_pointer_cast<ir::DirectionalLight>(scene->LightByName("dir"));
+    light->SetDirection(cos(t) * 0.5, sin(t) * 0.5, -1);
+
+  }
+}
+
+//////////////////////////////////////////////////
+void updatePbr()
+{
+  std::lock_guard<std::mutex> lock(g_pbrMutex);
+  if (g_pbrUpdate == 0)
+    return;
+
+  std::vector<std::string> meshes;
+  meshes.push_back("drill");
+  meshes.push_back("extinguisher");
+  meshes.push_back("rescue_randy");
+  meshes.push_back("valve");
+
+  // create PBR material
+  std::string environmentMap =
+      ignition::common::joinPaths(RESOURCE_PATH, "fort_point.dds");
+  for (auto mesh : meshes)
+  {
+    for (auto cam : g_cameras)
+    {
+      ir::ScenePtr scene = cam->Scene();
+      ir::MaterialPtr matPBR = scene->Material(mesh);
+      std::string textureMap = ignition::common::joinPaths(RESOURCE_PATH, mesh,
+          mesh + "_albedo.png");
+      std::string normalMap = ignition::common::joinPaths(RESOURCE_PATH, mesh,
+          mesh + "_normal.png");
+      std::string roughnessMap = ignition::common::joinPaths(RESOURCE_PATH, mesh,
+          mesh + "_roughness.png");
+      std::string metalnessMap = ignition::common::joinPaths(RESOURCE_PATH, mesh,
+         mesh + "_metalness.png");
+
+
+      if (g_pbrUpdate == 1)
+      {
+        if (matPBR->HasNormalMap())
+          matPBR->ClearNormalMap();
+        else
+          matPBR->SetNormalMap(normalMap);
+      }
+      else if (g_pbrUpdate == 2)
+      {
+        if (matPBR->HasRoughnessMap())
+          matPBR->ClearRoughnessMap();
+        else
+          matPBR->SetRoughnessMap(roughnessMap);
+      }
+      else if (g_pbrUpdate == 3)
+      {
+        if (matPBR->HasMetalnessMap())
+          matPBR->ClearMetalnessMap();
+        else
+          matPBR->SetMetalnessMap(metalnessMap);
+      }
+      else if (g_pbrUpdate == 4)
+      {
+        if (matPBR->HasEnvironmentMap())
+          matPBR->ClearEnvironmentMap();
+        else if (mesh != "rescue_randy")
+          matPBR->SetEnvironmentMap(environmentMap);
+      }
+      else if (g_pbrUpdate == 5)
+      {
+        matPBR->SetNormalMap(normalMap);
+        matPBR->SetRoughnessMap(roughnessMap);
+        matPBR->SetMetalnessMap(metalnessMap);
+        if (mesh != "rescue_randy")
+          matPBR->SetEnvironmentMap(environmentMap);
+      }
+      else if (g_pbrUpdate == 6)
+      {
+        matPBR->ClearNormalMap();
+        matPBR->ClearRoughnessMap();
+        matPBR->ClearMetalnessMap();
+        matPBR->ClearEnvironmentMap();
+      }
+
+      ir::VisualPtr meshPBR = scene->VisualByName(mesh);
+      meshPBR->SetMaterial(matPBR, false);
+    }
+  }
+  g_pbrUpdate = 0;
+}
 
 //////////////////////////////////////////////////
 void displayCB()
@@ -262,6 +392,10 @@ void displayCB()
 
   g_cameras[g_cameraIndex]->Capture(*g_image);
   handleMouse();
+
+  updateLight();
+
+  updatePbr();
 
 #if __APPLE__
   CGLSetCurrentContext(g_glutContext);
@@ -316,6 +450,38 @@ void keyboardCB(unsigned char _key, int, int)
       }
     }
   }
+  else if (_key == 'l')
+  {
+    std::lock_guard<std::mutex> lock(g_lightMutex);
+    if (g_lightUpdate <= 1)
+      g_lightUpdate = 2;
+    else
+      g_lightUpdate = 1;
+  }
+
+  std::lock_guard<std::mutex> lock(g_pbrMutex);
+  std::string k;
+  k += _key;
+  int key = -1;
+  try
+  {
+    key = std::stoi(k);
+  } catch (...)
+  {
+    return;
+  }
+  if (key >= 1 && key <= 6)
+    g_pbrUpdate = key;
+/*  else if (_key == '2')
+    g_pbrUpdate = 2;
+  else if (_key == '3')
+    g_pbrUpdate = 3;
+  else if (_key == '4')
+    g_pbrUpdate = 4;
+  else if (_key == '5')
+    g_pbrUpdate = 5;
+*/
+  std::cerr <<  _key << std::endl;
 }
 
 //////////////////////////////////////////////////
