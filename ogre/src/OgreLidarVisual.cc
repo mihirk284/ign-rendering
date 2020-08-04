@@ -22,6 +22,7 @@
 #include "ignition/rendering/ogre/OgreMarker.hh"
 #include "ignition/rendering/ogre/OgreGeometry.hh"
 
+int value = 0;
 
 class ignition::rendering::OgreLidarVisualPrivate
 {
@@ -304,11 +305,14 @@ void OgreLidarVisual::Update()
                               new OgreDynamicLines(MT_POINTS));
 
         #if (OGRE_VERSION <= ((1 << 16) | (10 << 8) | 7))
-              line->setMaterial("Lidar/BlueRay");
+              Ogre::MaterialPtr mat =
+                  Ogre::MaterialManager::getSingleton().getByName(
+                                                    "PointCloudPoint");
+            line->setMaterial(mat->getName());
         #else
             Ogre::MaterialPtr mat =
                   Ogre::MaterialManager::getSingleton().getByName(
-                                                    "Lidar/BlueRay");
+                                                    "PointCloudPoint");
             line->setMaterial(mat);
         #endif
         std::shared_ptr<Ogre::MovableObject> mv =
@@ -417,7 +421,8 @@ void OgreLidarVisual::Update()
         {
           if (this->displayNonHitting || !inf)
           {
-            this->dataPtr->points[j]->AddPoint(inf ? noHitPt: pt);
+            this->dataPtr->points[j]->AddPoint(inf ? noHitPt: pt,
+                  value%2? ignition::math::Color(1,0,1,1): ignition::math::Color(1,1,0,1));
           }
         }
         else
@@ -448,6 +453,7 @@ void OgreLidarVisual::Update()
     {
       this->dataPtr->points[j]->Update();
     }
+    value++;
     verticalAngle += this->verticalAngleStep;
   }
 }

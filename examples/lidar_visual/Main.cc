@@ -42,12 +42,12 @@ const std::string RESOURCE_PATH =
 // paramters for the LidarVisual and GpuRays API are initialised here
 const double hMinAngle = -2.26889;
 const double hMaxAngle = 2.26889;
-const double vMinAngle = 0;
-const double vMaxAngle = 0;
+const double vMinAngle = -0.1;
+const double vMaxAngle = 0.1;
 const double minRange = 0.08;
 const double maxRange = 10.0;
-const int hRayCount = 640;
-const int vRayCount = 1;
+const int hRayCount = 6400;
+const int vRayCount = 10;
 std::vector<double> pts;
 
 ignition::math::Pose3d testPose(ignition::math::Vector3d(0, 0, 0.5),
