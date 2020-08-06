@@ -6,7 +6,6 @@ vertex_program PointCloudVS glsl
   default_params
   {
     param_named_auto worldviewproj_matrix worldviewproj_matrix
-    param_named_auto size vec4 1000 1000 1000 1000
   }
 }
 
@@ -21,7 +20,8 @@ material PointCloudPoint
   {
     pass
     {
-      point_size_attenuation off
+      point_size_attenuation on
+      point_sprites on
       vertex_program_ref   PointCloudVS {}
       fragment_program_ref PointCloudFS {}
     }

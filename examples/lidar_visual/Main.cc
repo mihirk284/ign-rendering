@@ -46,7 +46,7 @@ const double vMinAngle = -0.1;
 const double vMaxAngle = 0.1;
 const double minRange = 0.08;
 const double maxRange = 10.0;
-const int hRayCount = 6400;
+const int hRayCount = 640;
 const int vRayCount = 10;
 std::vector<double> pts;
 

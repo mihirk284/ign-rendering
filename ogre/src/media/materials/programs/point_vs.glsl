@@ -5,11 +5,10 @@
 // Works for perspective and orthographic projection.
 
 uniform mat4 worldviewproj_matrix;
-uniform vec4 size;
 
 void main()
 {
   gl_Position = worldviewproj_matrix * gl_Vertex;
   gl_FrontColor = gl_Color;
-  gl_PointSize = size.x;
+  gl_PointSize = 10 / gl_Position.w;
 }
