@@ -30,6 +30,10 @@ namespace ic = ignition::common;
 /// \param[in] _pts Lidar points
 void run(std::vector<ir::CameraPtr> _cameras,
          std::vector<ir::LidarVisualPtr> _nodes,
-         std::vector<double> _pts);
+         std::vector<double> _pts,
+         ir::VisualPtr vptr,
+         ir::MaterialPtr mptr1,
+         ir::MaterialPtr mptr2,
+         ir::MaterialPtr mptr3);
 
 #endif

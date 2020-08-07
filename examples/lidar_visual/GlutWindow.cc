@@ -65,8 +65,12 @@ bool g_initContext = false;
 bool g_clear = false;
 std::vector<double> g_lidarData;
 ir::LidarVisualPtr g_lidar;
+ir::MaterialPtr g_mptr1, g_b_mptr1;
+ir::MaterialPtr g_mptr2;
+ir::VisualPtr g_vptr;
 bool g_lidarVisualUpdateDirty = false;
 bool g_showNonHitting = true;
+int g_ctr = 0;
 LidarVisualType g_lidarVisType = LidarVisualType::LVT_TRIANGLE_STRIPS;
 
 std::chrono::steady_clock::duration g_time{0};
@@ -260,6 +264,25 @@ void updateLidarVisual()
       g_lidar->SetType(g_lidarVisType);
       g_lidar->Update();
     }
+    if (g_ctr++%2)
+    {
+      g_mptr1->CopyFrom(g_mptr2);
+      // g_mptr1->SetAmbient(1.0, 0.2, 0.1);
+      // g_mptr1->SetDiffuse(1.0, 0.2, 0.1);
+      // g_mptr1->SetSpecular(1.0, 0.2, 0.1);
+      g_vptr->SetMaterial(g_mptr1);
+      g_vptr->SetMaterial(g_mptr1);
+    }
+    else
+    {
+      g_mptr1->CopyFrom(g_b_mptr1);
+      // g_mptr1->SetAmbient(1, 1, 0.01);
+      // g_mptr1->SetDiffuse(1, 1, 0.01);
+      // g_mptr1->SetSpecular(1, 1, 0.01);
+      g_vptr->SetMaterial(g_mptr1);
+      g_vptr->SetMaterial(g_mptr1);
+    }
+    
     g_lidarVisualUpdateDirty = false;
     g_clear = false;
     g_time = std::chrono::steady_clock::now() - g_startTime;
@@ -436,7 +459,11 @@ void printUsage()
 //////////////////////////////////////////////////
 void run(std::vector<ir::CameraPtr> _cameras,
         std::vector<ir::LidarVisualPtr> _nodes,
-        std::vector<double> _pts)
+        std::vector<double> _pts,
+        ir::VisualPtr vptr,
+        ir::MaterialPtr mptr1,
+        ir::MaterialPtr mptr2,
+        ir::MaterialPtr mptr3)
 {
   if (_cameras.empty())
   {
@@ -454,6 +481,10 @@ void run(std::vector<ir::CameraPtr> _cameras,
 #endif
 
   g_cameras = _cameras;
+  g_mptr1 = mptr1;
+  g_mptr2 = mptr2;
+  g_vptr = vptr;
+  g_b_mptr1 = mptr3;
 
   initCamera(_cameras[0]);
   initLidarVisual(_nodes[0]);

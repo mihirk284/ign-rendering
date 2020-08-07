@@ -50,6 +50,9 @@ const int hRayCount = 640;
 const int vRayCount = 10;
 std::vector<double> pts;
 
+VisualPtr vptr;
+MaterialPtr mptr1, mptr2, mptr3;
+
 ignition::math::Pose3d testPose(ignition::math::Vector3d(0, 0, 0.5),
     ignition::math::Quaterniond::Identity);
 
@@ -90,18 +93,21 @@ void buildScene(ScenePtr _scene)
   red->SetAmbient(1.0, 0.2, 0.1);
   red->SetDiffuse(1.0, 0.2, 0.1);
   red->SetSpecular(1.0, 0.2, 0.1);
+  mptr1 = red;
 
   // create green material
   MaterialPtr green = _scene->CreateMaterial();
   green->SetAmbient(0.1, 1, 0.1);
   green->SetDiffuse(0.1, 1, 0.1);
   green->SetSpecular(0.1, 1, 0.1);
+  mptr3 = green;
 
   // create yellow material
   MaterialPtr yellow = _scene->CreateMaterial();
   yellow->SetAmbient(1, 1, 0.01);
   yellow->SetDiffuse(1, 1, 0.01);
   yellow->SetSpecular(1, 1, 0.01);
+  mptr2 = yellow;
 
   // create grid visual
   GridPtr gridGeom = _scene->CreateGrid();
@@ -143,6 +149,10 @@ void buildScene(ScenePtr _scene)
   visualSphere1->SetWorldRotation(sphere01Pose.Rot());
   visualSphere1->SetMaterial(yellow);
   root->AddChild(visualSphere1);
+  vptr = visualSphere1;
+  yellow->SetAmbient(1.0, 0.2, 0.1);
+  yellow->SetDiffuse(1.0, 0.2, 0.1);
+  yellow->SetSpecular(1.0, 0.2, 0.1);
 
   // create camera
   CameraPtr camera = _scene->CreateCamera("camera");
@@ -297,6 +307,6 @@ int main(int _argc, char** _argv)
     }
   }
 
-  run(cameras, nodes, nodes[0]->Points());
+  run(cameras, nodes, nodes[0]->Points(), vptr, mptr1, mptr2, mptr3);
   return 0;
 }
