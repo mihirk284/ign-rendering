@@ -12,6 +12,7 @@ vertex_program PointCloudVS glsl
 fragment_program PointCloudFS glsl
 {
   source point_fs.glsl
+  
 }
 
 material PointCloudPoint
