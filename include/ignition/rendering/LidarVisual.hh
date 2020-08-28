@@ -179,6 +179,14 @@ namespace ignition
       /// \brief Get if non-hitting rays will be displayed
       /// \return Boolean value if non-hitting rays will be displayed
       public: virtual bool DisplayNonHitting() const = 0;
+
+      /// \brief Set visibility of the visual
+      /// \param[in] _visible Visibility of the visual
+      public: virtual void SetVisible(bool _visible) = 0;
+
+      /// \brief Get the visibility of the lidar visual
+      /// \return The visibility of the lidar visual
+      public: virtual bool Visible() const = 0;
     };
     }
   }

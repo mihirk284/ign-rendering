@@ -147,6 +147,12 @@ namespace ignition
       // Documentation inherited
       public: virtual bool DisplayNonHitting() const override;
 
+      // Documentation inherited
+      public: virtual void SetVisible(bool _visible) override;
+
+      // Documentation inherited
+      public: virtual bool Visible() const override;
+
       /// \brief Vertical minimal angle
       protected: double minVerticalAngle = 0;
 
@@ -186,6 +192,9 @@ namespace ignition
       /// \brief Type of lidar visualisation
       protected: LidarVisualType lidarVisualType =
                       LidarVisualType::LVT_TRIANGLE_STRIPS;
+
+      /// \brief Visibility of the lidar visual
+      protected: bool visible = true;
     };
 
     /////////////////////////////////////////////////
@@ -444,6 +453,21 @@ namespace ignition
     bool BaseLidarVisual<T>::DisplayNonHitting() const
     {
       return this->displayNonHitting;
+    }
+
+    /////////////////////////////////////////////////
+    template <class T>
+    void BaseLidarVisual<T>::SetVisible(bool _visible)
+    {
+      this->visible = _visible;
+      T::SetVisible(_visible);
+    }
+
+    /////////////////////////////////////////////////
+    template <class T>
+    bool BaseLidarVisual<T>::Visible() const
+    {
+      return this->visible;
     }
 
     /////////////////////////////////////////////////

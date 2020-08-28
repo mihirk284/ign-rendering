@@ -297,6 +297,11 @@ void Ogre2LidarVisual::Update()
       }
     }
 
+    // The newly created dynamic lines are having default visibility as true.
+    // The visibility needs to be set as per the current value after the new
+    // renderables are created.
+    this->SetVisible(this->Visible());
+
     if (this->dataPtr->lidarVisType == LidarVisualType::LVT_TRIANGLE_STRIPS)
     {
       this->dataPtr->deadZoneRayFans[j]->SetPoint(0, this->offset.Pos());
