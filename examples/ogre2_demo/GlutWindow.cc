@@ -25,7 +25,7 @@
   #include <GL/glut.h>
 #endif
 
-#if not defined(__APPLE__) && not defined(_WIN32)
+#if !defined(__APPLE__) && !defined(_WIN32)
   #include <GL/glx.h>
 #endif
 
@@ -279,12 +279,6 @@ void displayCB()
   glDrawPixels(imgw, imgh, GL_RGB, GL_UNSIGNED_BYTE, data);
 
   glutSwapBuffers();
-
-  // Uncomment to print FPS
-  // static ignition::common::Time previous;
-  // auto now = ignition::common::Time::SystemTime();
-  // std::cerr << (now - previous).Double() << std::endl;
-  // previous = now;
 }
 
 //////////////////////////////////////////////////
@@ -388,5 +382,3 @@ void run(std::vector<ir::CameraPtr> _cameras)
 
   glutMainLoop();
 }
-
-

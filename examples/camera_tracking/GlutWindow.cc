@@ -25,7 +25,7 @@
   #include <GL/glut.h>
 #endif
 
-#if not defined(__APPLE__) && not defined(_WIN32)
+#if !defined(__APPLE__) && !defined(_WIN32)
   #include <GL/glx.h>
 #endif
 
@@ -377,8 +377,13 @@ void keyboardCB(unsigned char _key, int, int)
     }
     else if (_key == '2')
     {
-      cam->SetTrackTarget(node, g_trackOffset);
+      //! [camera track]
+      cam->SetTrackTarget(node, g_trackOffset, false);
+      //! [camera track]
+
+      //! [camera follow]
       cam->SetFollowTarget(node, g_followOffset, false);
+      //! [camera follow]
     }
     else if (_key == '3')
     {

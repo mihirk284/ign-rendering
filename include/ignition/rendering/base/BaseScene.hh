@@ -22,6 +22,7 @@
 #include <string>
 
 #include <ignition/common/Console.hh>
+#include <ignition/common/SuppressWarning.hh>
 
 #include "ignition/rendering/RenderEngine.hh"
 #include "ignition/rendering/Scene.hh"
@@ -34,7 +35,9 @@ namespace ignition
     inline namespace IGNITION_RENDERING_VERSION_NAMESPACE {
     //
     class IGNITION_RENDERING_VISIBLE BaseScene :
+      IGN_COMMON_WARN_IGNORE__DLL_INTERFACE_MISSING
       public std::enable_shared_from_this<BaseScene>,
+      IGN_COMMON_WARN_RESUME__DLL_INTERFACE_MISSING
       public virtual Scene
     {
       protected: BaseScene(unsigned int _id, const std::string &_name);
@@ -55,9 +58,16 @@ namespace ignition
 
       public: virtual std::string Name() const override;
 
-      public: virtual common::Time SimTime() const override;
+      public: virtual void IGN_DEPRECATED(4)
+        SetSimTime(const common::Time &_time) override;
 
-      public: virtual void SetSimTime(const common::Time &_time) override;
+      public: virtual common::Time IGN_DEPRECATED(4) SimTime() const override;
+
+      public: virtual std::chrono::steady_clock::duration Time()
+        const override;
+
+      public: virtual void SetTime(
+        const std::chrono::steady_clock::duration &_time) override;
 
       public: virtual void SetAmbientLight(double _r, double _g, double _b,
                   double _a = 1.0) override;
@@ -608,9 +618,14 @@ namespace ignition
 
       protected: unsigned int id;
 
+      IGN_COMMON_WARN_IGNORE__DLL_INTERFACE_MISSING
       protected: std::string name;
+      IGN_COMMON_WARN_RESUME__DLL_INTERFACE_MISSING
 
-      protected: common::Time simTime;
+      protected: common::Time IGN_DEPRECATED(4) simTime;
+
+      protected: std::chrono::steady_clock::duration time =
+        std::chrono::steady_clock::duration::zero();
 
       protected: bool loaded;
 
@@ -633,7 +648,9 @@ namespace ignition
 
       private: unsigned int nextObjectId;
 
+      IGN_COMMON_WARN_IGNORE__DLL_INTERFACE_MISSING
       private: NodeStorePtr nodes;
+      IGN_COMMON_WARN_RESUME__DLL_INTERFACE_MISSING
     };
     }
   }

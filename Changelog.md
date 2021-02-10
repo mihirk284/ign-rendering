@@ -2,9 +2,102 @@
 
 ### Ignition Rendering 4.X
 
-### Ignition Rendering 4.X.X
+### Ignition Rendering 4.4.0 (2021-02-11)
 
-### Ignition Rendering 4.0.0
+1. Add support for 8 bit thermal camera image format
+    * [Pull Request #235](https://github.com/ignitionrobotics/ign-rendering/pull/235)
+
+1. All changes up to version 3.4.0
+
+### Ignition Rendering 4.3.1 (2021-02-03)
+
+1. Fix converting Pbs to Unlit material conversion (#230)
+    * [Pull Request #230](https://github.com/ignitionrobotics/ign-rendering/pull/230)
+
+### Ignition Rendering 4.3.0 (2021-02-02)
+
+1. Tutorial: Transform FBX to Collada and change its origin
+    * [Pull request #195](https://github.com/ignitionrobotics/ign-rendering/pull/195)
+
+1. Remove Windows Warnings
+    * [Pull request #206](https://github.com/ignitionrobotics/ign-rendering/pull/206)
+    * [Pull request #213](https://github.com/ignitionrobotics/ign-rendering/pull/213)
+    * [Pull request #215](https://github.com/ignitionrobotics/ign-rendering/pull/215)
+
+1. Fix spelling Desconstructor -> Destructor
+    * [Pull request #220](https://github.com/ignitionrobotics/ign-rendering/pull/220)
+
+1. Thermal Camera: Visualize objects with a heat signature
+    * [Pull request #189](https://github.com/ignitionrobotics/ign-rendering/pull/189)
+
+1. Add laser retro support in Ogre2
+    * [Pull request #194](https://github.com/ignitionrobotics/ign-rendering/pull/194)
+
+### Ignition Rendering 4.2.0 (2021-01-22)
+
+1. Remove some windows warnings.
+    * [Pull request #183](https://github.com/ignitionrobotics/ign-rendering/pull/183)
+
+1. Fix transparency issue for textures without alpha channel.
+    * [Pull request #186](https://github.com/ignitionrobotics/ign-rendering/pull/186)
+
+1. Call XCloseDisplay in screenScalingFactor.
+    * [Pull request #204](https://github.com/ignitionrobotics/ign-rendering/pull/204)
+
+1. All changes up to version 3.3.0.
+
+### Ignition Rendering 4.1.0 (2020-11-04)
+
+1. Improve fork experience
+    * [Pull request #165](https://github.com/ignitionrobotics/ign-rendering/pull/165)
+
+1. Add Custom Render Engine support
+    * [Pull request 161](https://github.com/ignitionrobotics/ign-rendering/pull/161)
+    * [Pull request 154](https://github.com/ignitionrobotics/ign-rendering/pull/154)
+    * [Pull request 142](https://github.com/ignitionrobotics/ign-rendering/pull/142)
+    * [Pull request 141](https://github.com/ignitionrobotics/ign-rendering/pull/141)
+
+1. Update tutorials
+    * [Pull request #159](https://github.com/ignitionrobotics/ign-rendering/pull/159)
+    * [Pull request #153](https://github.com/ignitionrobotics/ign-rendering/pull/153)
+
+1. Limit number of shadow casting lights in ogre2
+    * [Pull Request 155](https://github.com/ignitionrobotics/ign-rendering/pull/155)
+
+1. Ogre2 depth camera fix
+    * [Pull Request 138](https://github.com/ignitionrobotics/ign-rendering/pull/138)
+
+1. Add support for Gaussian noise render pass in Ogre2DepthCamera
+    * [Pull Request 122](https://github.com/ignitionrobotics/ign-rendering/pull/122)
+
+### Ignition Rendering 4.0.0 (2020-09-29)
+
+1. Update tutorials
+    * [Pull request #151](https://github.com/ignitionrobotics/ign-rendering/pull/151)
+    * [Pull request #150](https://github.com/ignitionrobotics/ign-rendering/pull/150)
+    * [Pull request #149](https://github.com/ignitionrobotics/ign-rendering/pull/149)
+    * [Pull request #148](https://github.com/ignitionrobotics/ign-rendering/pull/148)
+    * [Pull request #147](https://github.com/ignitionrobotics/ign-rendering/pull/147)
+    * [Pull request #146](https://github.com/ignitionrobotics/ign-rendering/pull/146)
+    * [Pull request #145](https://github.com/ignitionrobotics/ign-rendering/pull/145)
+    * [Pull request #144](https://github.com/ignitionrobotics/ign-rendering/pull/144)
+    * [Pull request #143](https://github.com/ignitionrobotics/ign-rendering/pull/143)
+    * [Pull request #125](https://github.com/ignitionrobotics/ign-rendering/pull/125)
+
+1. Pimpl'ize ogre2 classes
+    * [Pull request #137](https://github.com/ignitionrobotics/ign-rendering/pull/137)
+
+1. Replace common::Time with std::chrono
+    * [Pull request #135](https://github.com/ignitionrobotics/ign-rendering/pull/135)
+
+1. Add Ogre2 particle system
+    * [Pull request #126](https://github.com/ignitionrobotics/ign-rendering/pull/126)
+    * [Pull request #117](https://github.com/ignitionrobotics/ign-rendering/pull/117)
+    * [Pull request #113](https://github.com/ignitionrobotics/ign-rendering/pull/113)
+    * [Pull request #107](https://github.com/ignitionrobotics/ign-rendering/pull/107)
+
+1. Add LidarVisual point colors for Ogre1
+    * [Pull request #124](https://github.com/ignitionrobotics/ign-rendering/pull/124)
 
 1. Added Lidar Visual for Ogre2
     * [Pull request #116](https://github.com/ignitionrobotics/ign-rendering/pull/116)
@@ -15,8 +108,14 @@
 1. Added Lidar Visualisation for Ogre1
     * [Pull request #103](https://github.com/ignitionrobotics/ign-rendering/pull/103)
 
+1. Add environment variables to locate plugins
+    * [Pull request #104](https://github.com/ignitionrobotics/ign-rendering/pull/104)
+
 1. Added a method to show the head on arrows and axis
     * [Pull request #95](https://github.com/ignitionrobotics/ign-rendering/pull/95)
+
+1. Complete Shaft and Head methods in BaseArrowVisual
+    * [Pull request #95](https://github.com/ignitionrobotics/ign-rendering/pull/94)
 
 1. Scale BaseAxis properly
     * [Pull request #88](https://github.com/ignitionrobotics/ign-rendering/pull/88)
@@ -42,7 +141,47 @@
 1. Add support for transparency based on textures alpha channel for ogre1 and ogre2
     * [BitBucket pull request 229](https://osrf-migration.github.io/ignition-gh-pages/#!/ignitionrobotics/ign-rendering/pull-requests/229)
 
-### Ignition Rendering 3.X.X
+### Ignition Rendering 3.X.X (2021-XX-XX)
+
+
+
+### Ignition Rendering 3.4.0 (2021-02-09)
+
+1. Clear all Windows warnings
+    * [Pull request 206](https://github.com/ignitionrobotics/ign-rendering/pull/206)
+    * [Pull request 215](https://github.com/ignitionrobotics/ign-rendering/pull/215)
+    * [Pull request 225](https://github.com/ignitionrobotics/ign-rendering/pull/225)
+
+1. Add laser_retro support
+    * [Pull request 194](https://github.com/ignitionrobotics/ign-rendering/pull/194)
+
+### Ignition Rendering 3.3.0 (2021-01-22)
+
+1. Add Windows installation.
+    * [Pull request 196](https://github.com/ignitionrobotics/ign-rendering/pull/196)
+
+1. Make flaky VisualAt test more verbose.
+    * [Pull request 174](https://github.com/ignitionrobotics/ign-rendering/pull/174)
+
+1. Resolve updated codecheck issues.
+    * [Pull request 173](https://github.com/ignitionrobotics/ign-rendering/pull/173)
+
+1. Fix crash due to NaN pose values.
+    * [Pull request 169](https://github.com/ignitionrobotics/ign-rendering/pull/169)
+
+1. Improve fork experience.
+    * [Pull request 165](https://github.com/ignitionrobotics/ign-rendering/pull/165)
+
+### Ignition Rendering 3.2.0 (2020-10-13)
+
+1. Add Custom Render Engine support
+    * [Pull request 161](https://github.com/ignitionrobotics/ign-rendering/pull/161)
+    * [Pull request 154](https://github.com/ignitionrobotics/ign-rendering/pull/154)
+    * [Pull request 142](https://github.com/ignitionrobotics/ign-rendering/pull/142)
+    * [Pull request 141](https://github.com/ignitionrobotics/ign-rendering/pull/141)
+
+1. Add getter for Ogre2Camera
+    * [Pull request 97](https://github.com/ignitionrobotics/ign-rendering/pull/97)
 
 1. Update test configuration to use ogre2
     * [Pull request 83](https://github.com/ignitionrobotics/ign-rendering/pull/83)
@@ -52,6 +191,8 @@
 
 1. Ogre2: Add Grid
     * [BitBucket pull request 246](https://osrf-migration.github.io/ignition-gh-pages/#!/ignitionrobotics/ign-rendering/pull-requests/246)
+
+1. Includes all changes up to and including those in version 2.5.1
 
 ### Ignition Rendering 3.1.0 (2020-03-05)
 
@@ -114,8 +255,18 @@
     * [BitBucket pull request 199](https://osrf-migration.github.io/ignition-gh-pages/#!/ignitionrobotics/ign-rendering/pull-requests/199)
     * [BitBucket pull request 204](https://osrf-migration.github.io/ignition-gh-pages/#!/ignitionrobotics/ign-rendering/pull-requests/204)
 
-### Ignition Rendering 2.X.X (20XX-XX-XX)
+### Ignition Rendering 2.5.1 (2020-10-05)
 
+1. Limit number of shadow casting lights in ogre2
+    * [Pull Request 155](https://github.com/ignitionrobotics/ign-rendering/pull/155)
+
+1. Backport ogre2 depth camera fix
+    * [Pull Request 138](https://github.com/ignitionrobotics/ign-rendering/pull/138)
+
+### Ignition Rendering 2.5.0 (2020-08-07)
+
+1. Add support for Gaussian noise render pass in Ogre2DepthCamera
+    * [Pull Request 122](https://github.com/ignitionrobotics/ign-rendering/pull/122)
 
 ### Ignition Rendering 2.4.0 (2020-04-17)
 

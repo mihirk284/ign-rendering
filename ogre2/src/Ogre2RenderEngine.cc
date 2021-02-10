@@ -16,7 +16,7 @@
  */
 
 // Not Apple or Windows
-#if not defined(__APPLE__) && not defined(_WIN32)
+#if !defined(__APPLE__) && !defined(_WIN32)
 # include <X11/Xlib.h>
 # include <X11/Xutil.h>
 # include <GL/glx.h>
@@ -43,7 +43,7 @@
 
 class ignition::rendering::Ogre2RenderEnginePrivate
 {
-#if not defined(__APPLE__) && not defined(_WIN32)
+#if !defined(__APPLE__) && !defined(_WIN32)
   public: XVisualInfo *dummyVisual = nullptr;
 #endif
 
@@ -480,8 +480,11 @@ void Ogre2RenderEngine::CreateRenderSystem()
     renderSys = rsList->at(c);
     c++;
   }
-  while (renderSys &&
-         renderSys->getName().compare("OpenGL 3+ Rendering Subsystem") != 0);
+  // cpplint has a false positive when extending a while call to multiple lines
+  // (it thinks the while loop is empty), so we must put the whole while
+  // statement on one line and add NOLINT at the end so that cpplint doesn't
+  // complain about the line being too long
+  while (renderSys && renderSys->getName().compare("OpenGL 3+ Rendering Subsystem") != 0); // NOLINT
 
   if (renderSys == nullptr)
   {

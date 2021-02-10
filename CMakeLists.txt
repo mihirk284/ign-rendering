@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10.2 FATAL_ERROR)
 #============================================================================
 # Initialize the project
 #============================================================================
-project(ignition-rendering4 VERSION 4.0.0)
+project(ignition-rendering4 VERSION 4.4.0)
 
 #============================================================================
 # Find ignition-cmake
@@ -14,7 +14,7 @@ find_package(ignition-cmake2 REQUIRED)
 #============================================================================
 # Set up the project
 #============================================================================
-ign_configure_project(VERSION_SUFFIX pre1)
+ign_configure_project(VERSION_SUFFIX)
 
 #============================================================================
 # Set project-specific options
@@ -28,7 +28,7 @@ ign_configure_project(VERSION_SUFFIX pre1)
 
 #--------------------------------------
 # Find ignition-math
-ign_find_package(ignition-math6 REQUIRED)
+ign_find_package(ignition-math6 REQUIRED VERSION 6.6)
 set(IGN_MATH_VER ${ignition-math6_VERSION_MAJOR})
 
 #--------------------------------------
@@ -86,6 +86,11 @@ ign_find_package(IgnOGRE2 VERSION 2.1.0
 if (OGRE2_FOUND)
   set(HAVE_OGRE2 TRUE)
 endif()
+
+# Plugin install dirs
+set(IGNITION_RENDERING_ENGINE_INSTALL_DIR
+  ${CMAKE_INSTALL_PREFIX}/${IGN_LIB_INSTALL_DIR}/ign-${IGN_DESIGNATION}-${PROJECT_VERSION_MAJOR}/engine-plugins
+)
 
 #--------------------------------------
 # Find dependencies that we ignore for Visual Studio
