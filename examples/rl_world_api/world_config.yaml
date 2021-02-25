@@ -1,0 +1,34 @@
+# Sample world config
+WorldDescription:
+  meshes:
+    num_meshes: 9
+    filenames: ["mesh1.dae"]
+  lights:
+    num_lights: 0
+    light_info: []
+
+Robots:
+  Robot1:
+    worldPosition: [1,1,1]
+    worldOrientation: [0,0,0,1]
+    GpuRaySensors:
+      sensor1:
+        relPosition: [0,0,0]
+        relOrientation: [0,0,0,1]
+        vRays: 32
+        hRays: 360
+        minVAngle: -0.78539816339
+        maxVAngle: 0.78539816339
+        minHAngle: -3.14159265359
+        maxHAngle: 3.14159265359
+        minRange: 0.1
+        maxRange: 50
+    Cameras:
+      cam1:
+        relPosition: [0,0,0]
+        relOrientation: [0,0,0,1]
+        imageWidth: 1200
+        imageHeight: 900
+        aspectRatio: 1.333
+        HFoV: 1.57079632679
+        antiAliasing: 2
